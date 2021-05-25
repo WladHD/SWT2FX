@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.swt.scenes.controller.MainController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Datei">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onLoadRequested" text="Laden" />
+                  <MenuItem mnemonicParsing="false" onAction="#onSaveRequested" text="Speichern" />
+                  <MenuItem mnemonicParsing="false" onAction="#onCloseRequested" text="Schließen" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Verwaltung">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onProduktClick" text="Produkte" />
+                  <MenuItem mnemonicParsing="false" onAction="#onRechnungClick" text="Rechnungen" />
+                  <MenuItem mnemonicParsing="false" onAction="#onLagerungClick" text="Lagerung" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
