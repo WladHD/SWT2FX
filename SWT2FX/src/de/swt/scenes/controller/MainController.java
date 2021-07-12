@@ -3,7 +3,7 @@ package de.swt.scenes.controller;
 import java.io.IOException;
 import java.util.Optional;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.scenes.SceneDirector;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -36,7 +36,7 @@ public class MainController {
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-			boolean s = Produktverwaltung.getInstance().deserialize(result.get());
+			boolean s = ProduktverwaltungDataInterface.getProduktverwaltung().loadAll(result.get());
 			SceneDirector.getInstance().sceneProdukte();
 			SceneDirector.getInstance().showAlert(s ? AlertType.INFORMATION : AlertType.ERROR, s ? "Erfolg" : "Fehler",
 					s ? "Daten erfolgreich geladen." : "Ein interner Fehler ist aufgetreten.");
@@ -61,7 +61,7 @@ public class MainController {
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-			boolean s = Produktverwaltung.getInstance().serialize(result.get());
+			boolean s = ProduktverwaltungDataInterface.getProduktverwaltung().saveAll(result.get());
 			SceneDirector.getInstance().showAlert(s ? AlertType.INFORMATION : AlertType.ERROR, s ? "Erfolg" : "Fehler",
 					s ? "Daten erfolgreich gespeichert." : "Ein interner Fehler ist aufgetreten.");
 		}

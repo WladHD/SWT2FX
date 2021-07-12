@@ -3,8 +3,10 @@ package de.swt.produktverwaltung.obj;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Rechnung implements Serializable{
+public class Rechnung implements Serializable, IDHolder<Rechnung> {
 	private static final long serialVersionUID = -6579963289455951348L;
+	private static int gid = 0;
+	private int id = gid++;
 	
 	private String datum;
 	private String zeit;
@@ -49,5 +51,15 @@ public class Rechnung implements Serializable{
 	
 	public String toString() {
 		return datum + " " + zeit + " @ " + getSumme() + " €";
+	}
+
+	@Override
+	public int getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(int id) {
+		this.id = id;
 	}
 }

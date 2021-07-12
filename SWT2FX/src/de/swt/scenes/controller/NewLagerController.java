@@ -1,6 +1,6 @@
 package de.swt.scenes.controller;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Lager;
 import de.swt.scenedirector.RequiredAction;
 import de.swt.scenes.SceneDirector;
@@ -123,7 +123,7 @@ public class NewLagerController implements VarChecker {
 			return;
 		}
 
-		Produktverwaltung.getInstance()
+		ProduktverwaltungDataInterface.getProduktverwaltung()
 				.addLager(new Lager(tfName.getText(),
 						new Address(tfLand.getText(), tfBundesland.getText(),
 								Integer.parseInt(tfPostleitzahl.getText()), tfStadt.getText(), tfStrasse.getText(),

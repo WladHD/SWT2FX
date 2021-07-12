@@ -22,8 +22,7 @@ public class SceneDirector {
 		return inst;
 	}
 	
-	private SceneDirector() {};
-	
+	private SceneDirector() {}	
 	public static RequiredAction _requiredAction = RequiredAction.NONE;
 	public static Object _requiredActionData;
 	
@@ -45,13 +44,13 @@ public class SceneDirector {
 		loadScene("ProduktLagerplatz");
 	}
 	
-	public void sceneLagerAnzeigen(Lager l) {
-		_setRequiredAction(RequiredAction.LAGER_SHOW_LAGER, l);
+	public void sceneLagerAnzeigen(Lager lagerId) {
+		_setRequiredAction(RequiredAction.LAGER_SHOW_LAGER, lagerId);
 		sceneNeuesLager();
 	}
 	
-	public void sceneNeuerLagerplatz(Lager l) {
-		_setRequiredAction(RequiredAction.LAGER_NEW_LAGERPLATZ, l);
+	public void sceneNeuerLagerplatz(Lager lagerId) {
+		_setRequiredAction(RequiredAction.LAGER_NEW_LAGERPLATZ, lagerId);
 		loadScene("NewLagerplatz");
 	}
 	
@@ -85,8 +84,8 @@ public class SceneDirector {
 		loadScene("Produkt");
 	}
 	
-	public void sceneProdukte(Lagerplatz lp) {
-		_setRequiredAction(RequiredAction.PRODUKT_NEED_SELECTED_PRODUKT, lp);
+	public void sceneProdukte(Lagerplatz lagerplatzId) {
+		_setRequiredAction(RequiredAction.PRODUKT_NEED_SELECTED_PRODUKT, lagerplatzId);
 		sceneProdukte();
 	}
 	

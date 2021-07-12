@@ -2,8 +2,10 @@ package de.swt.produktverwaltung.obj;
 
 import java.io.Serializable;
 
-public class Produktanzahl implements Serializable{
+public class Produktanzahl implements Serializable, IDHolder<Produktanzahl> {
 	private static final long serialVersionUID = 4650285157889926648L;
+	private static int gid = 0;
+	private int id = gid++;
 	
 	private Produkt produkt;
 	
@@ -37,8 +39,14 @@ public class Produktanzahl implements Serializable{
 	public double getEinzelpreis() {
 		return getProdukt().getPreis();
 	}
-}
 
-// Entwurfsentscheidung
-// Produkt als Oberklasse
-// Weiteres komplexes Datentyp
+	@Override
+	public int getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(int id) {
+		this.id = id;
+	}
+}

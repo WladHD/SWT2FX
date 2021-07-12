@@ -1,6 +1,6 @@
 package de.swt;
 	
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.mysql.MySQL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +18,7 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		Produktverwaltung.getInstance().generateTestData();
+		//ProduktverwaltungDataInterface.getProduktverwaltung().generateTestData();
 		
 		try {
 			root = (BorderPane)FXMLLoader.load(getClass().getResource("/de/swt/scenes/Main.fxml"));
@@ -26,6 +26,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			MySQL.getInstance().getConnection();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

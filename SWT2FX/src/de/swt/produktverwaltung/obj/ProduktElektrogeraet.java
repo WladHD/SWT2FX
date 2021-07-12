@@ -21,7 +21,7 @@ public class ProduktElektrogeraet extends Produkt {
 
 	@Override
 	public String getTyp() {
-		return "Elektrogerät";
+		return ProduktTyp.ELEKTROGERAET.toString();
 	}
 
 	@Override

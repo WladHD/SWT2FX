@@ -21,7 +21,7 @@ public class ProduktLebensmittel extends Produkt {
 
 	@Override
 	public String getTyp() {
-		return "Lebensmittel";
+		return ProduktTyp.LEBENSMITTEL.toString();
 	}
 
 	@Override

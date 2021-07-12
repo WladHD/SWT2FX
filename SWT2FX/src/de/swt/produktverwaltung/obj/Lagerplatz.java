@@ -2,13 +2,15 @@ package de.swt.produktverwaltung.obj;
 
 import java.io.Serializable;
 
-public class Lagerplatz implements Serializable {
+public class Lagerplatz implements Serializable, IDHolder<Lagerplatz> {
 	private static final long serialVersionUID = 7795881023915039552L;
+	private static int gid = 0;
 
 	private String abteil;
 	private int position;
 	private Produktanzahl produktanzahl;
 	private Lager lager;
+	private int id = gid++;
 
 	public Lagerplatz(Lager l, String abteil, int position) {
 		this(l, abteil, position, null);
@@ -40,6 +42,10 @@ public class Lagerplatz implements Serializable {
 	public Produktanzahl getProduktanzahl() {
 		return produktanzahl;
 	}
+	
+	public boolean hasProduktanzahl() {
+		return getProduktanzahl() != null;
+	}
 
 	public void setProduktanzahl(Produktanzahl produktanzahl) {
 		this.produktanzahl = produktanzahl;
@@ -55,5 +61,15 @@ public class Lagerplatz implements Serializable {
 
 	public String toString() {
 		return abteil + "#" + position + " (" + (getProduktanzahl() == null ? "frei" : "belegt") + ")";
+	}
+
+	@Override
+	public int getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(int id) {
+		this.id = id;
 	}
 }

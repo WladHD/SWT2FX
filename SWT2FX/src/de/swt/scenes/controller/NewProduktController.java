@@ -2,7 +2,7 @@ package de.swt.scenes.controller;
 
 import java.time.format.DateTimeFormatter;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.ProduktElektrogeraet;
 import de.swt.produktverwaltung.obj.ProduktLebensmittel;
 import de.swt.scenes.SceneDirector;
@@ -100,14 +100,14 @@ public class NewProduktController implements VarChecker {
     	
     	if(cbTyp.getSelectionModel().getSelectedItem().equals(typ[0])) {
     		ProduktElektrogeraet pe = new ProduktElektrogeraet(tfName.getText(), tfEAN13.getText(), Double.parseDouble(tfPreis.getText()), cbPhasen.getValue());
-    		Produktverwaltung.getInstance().addProdukt(pe);
+    		ProduktverwaltungDataInterface.getProduktverwaltung().addProdukt(pe);
     		SceneDirector.getInstance().sceneProdukte(pe);
     		return;
     	}
     	
     	if(cbTyp.getSelectionModel().getSelectedItem().equals(typ[1])) {
     		ProduktLebensmittel pe = new ProduktLebensmittel(tfName.getText(), tfEAN13.getText(), Double.parseDouble(tfPreis.getText()), dpVerfallsdatum.getValue().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-    		Produktverwaltung.getInstance().addProdukt(pe);
+    		ProduktverwaltungDataInterface.getProduktverwaltung().addProdukt(pe);
     		SceneDirector.getInstance().sceneProdukte(pe);
     		return;
     	}

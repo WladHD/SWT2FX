@@ -3,7 +3,7 @@ package de.swt.scenes.controller;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Lagerplatz;
 import de.swt.produktverwaltung.obj.Produkt;
 import de.swt.produktverwaltung.obj.Produktanzahl;
@@ -36,7 +36,7 @@ public class ProduktController {
 		tcInfo.setCellValueFactory(new PropertyValueFactory<>("zusatzinfo"));
 		tcAnzahl.setCellValueFactory(new PropertyValueFactory<>("AnzahlInLager"));
 		tcKaeufe.setCellValueFactory(new PropertyValueFactory<>("AnzahlDerKaeufe"));
-		tvProdukte.getItems().addAll(Produktverwaltung.getInstance().getProdukte());
+		tvProdukte.getItems().addAll(ProduktverwaltungDataInterface.getProduktverwaltung().getProdukte());
 		
 		btnLagerplatz.setVisible(false);
 		btnRechnung.setVisible(false);
@@ -159,9 +159,9 @@ public class ProduktController {
 			return;
 		}
 
-		for (Rechnung r : Produktverwaltung.getInstance().getRechnungen()) {
+		for (Rechnung r : ProduktverwaltungDataInterface.getProduktverwaltung().getRechnungen()) {
 			for (Produktanzahl pa : r.getProdukte()) {
-				if (pa.getProdukt() == p) {
+				if (pa.getProdukt().getID() == p.getID()) {
 					lvRechnungen.getItems().add(r);
 					break;
 				}
@@ -184,8 +184,8 @@ public class ProduktController {
 		}
 
 		lvLagerplaetze.getItems()
-				.addAll(Produktverwaltung.getInstance().getLagerplaetze().stream()
-						.filter(x -> x.getProduktanzahl() != null && x.getProduktanzahl().getProdukt() == p)
+				.addAll(ProduktverwaltungDataInterface.getProduktverwaltung().getLagerplaetze().stream()
+						.filter(x -> x.getProduktanzahl() != null && x.getProduktanzahl().getProdukt().getID() == p.getID())
 						.collect(Collectors.toList()));
 
 		if (lvLagerplaetze.getItems().size() == 0)

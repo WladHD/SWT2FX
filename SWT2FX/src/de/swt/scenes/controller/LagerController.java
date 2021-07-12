@@ -2,7 +2,7 @@ package de.swt.scenes.controller;
 
 import java.util.AbstractMap.SimpleEntry;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Lager;
 import de.swt.produktverwaltung.obj.Lagerplatz;
 import de.swt.produktverwaltung.obj.Produkt;
@@ -92,7 +92,7 @@ public class LagerController {
 			break;
 		}
 		case 2: {
-			Produktverwaltung.getInstance().removeLagerplatz(currentLagerplatz);
+			ProduktverwaltungDataInterface.getProduktverwaltung().removeLagerplatz(currentLagerplatz);
 			SceneDirector.getInstance().sceneLager(currentLagerplatz);
 			break;
 		}
@@ -108,7 +108,8 @@ public class LagerController {
 	void onButton3Clicked(ActionEvent event) {
 		switch (currentWindow) {
 		case 1: {
-			Produktverwaltung.getInstance().removeLager(currentLager);
+			ProduktverwaltungDataInterface.getProduktverwaltung().removeLager(currentLager);
+			currentLager = null;
 			SceneDirector.getInstance().sceneLager();
 			break;
 		}
@@ -125,7 +126,7 @@ public class LagerController {
 	void onButton4Clicked(ActionEvent event) {
 		switch (currentWindow) {
 		case 3: {
-			Produktverwaltung.getInstance().removeProduktFromLagerplatz(currentLagerplatz);
+			ProduktverwaltungDataInterface.getProduktverwaltung().removeProduktFromLagerplatz(currentLagerplatz);
 			SceneDirector.getInstance().sceneLager(currentLagerplatz);
 			break;
 		}
@@ -164,7 +165,7 @@ public class LagerController {
 	}
 
 	private void loadLager() {
-		lvLager.setItems(FXCollections.observableArrayList(Produktverwaltung.getInstance().getLager()));
+		lvLager.setItems(FXCollections.observableArrayList(ProduktverwaltungDataInterface.getProduktverwaltung().getLager()));
 	}
 
 	private void loadLagerplaetze(Lager l) {
@@ -174,7 +175,7 @@ public class LagerController {
 		if (l == null)
 			return;
 
-		lvLagerplatz.setItems(FXCollections.observableArrayList(Produktverwaltung.getInstance().getLagerplaetze(l)));
+		lvLagerplatz.setItems(FXCollections.observableArrayList(ProduktverwaltungDataInterface.getProduktverwaltung().getLagerplaetze(l)));
 	}
 
 	private void loadProdukt(Lagerplatz lp) {

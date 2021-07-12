@@ -2,8 +2,12 @@ package de.swt.utils;
 
 import java.io.Serializable;
 
-public class Address implements Serializable {
+import de.swt.produktverwaltung.obj.IDHolder;
+
+public class Address implements Serializable, IDHolder<Address> {
 	private static final long serialVersionUID = 5673261964574338187L;
+	private static int gid = 0;
+	private int id = gid++;
 	private String country;
 	private String state;
 	private int postCode;
@@ -66,6 +70,16 @@ public class Address implements Serializable {
 
 	public void setHouseNr(int houseNr) {
 		this.houseNr = houseNr;
+	}
+
+	@Override
+	public int getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(int id) {
+		this.id = id;
 	}
 
 }

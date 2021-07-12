@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Produkt;
 import de.swt.produktverwaltung.obj.Produktanzahl;
 import de.swt.produktverwaltung.obj.Rechnung;
@@ -36,7 +36,7 @@ public class NewRechnungController implements VarChecker {
 		tcAnzahl.setCellValueFactory(new PropertyValueFactory<>("anzahl"));
 		tcEinzelpreis1.setCellValueFactory(new PropertyValueFactory<>("einzelpreis"));
 		tcGesamtpreis.setCellValueFactory(new PropertyValueFactory<>("gesamtsumme"));
-		tvProduktListe.getItems().addAll(Produktverwaltung.getInstance().getProdukte());
+		tvProduktListe.getItems().addAll(ProduktverwaltungDataInterface.getProduktverwaltung().getProdukte());
 	}
 
 	@FXML
@@ -145,7 +145,7 @@ public class NewRechnungController implements VarChecker {
 		for(Produktanzahl pa : tvRechnungen.getItems())
 			r.addProdukt(pa);
 		
-		Produktverwaltung.getInstance().addRechnung(r);
+		ProduktverwaltungDataInterface.getProduktverwaltung().addRechnung(r);
 		SceneDirector.getInstance().sceneRechnung(r);
 	}
 

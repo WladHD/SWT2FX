@@ -4,14 +4,16 @@ import java.io.Serializable;
 
 import de.swt.utils.Address;
 
-public class Lager implements Serializable{
+public class Lager implements Serializable, IDHolder<Lager> {
 	private static final long serialVersionUID = 3720489565964922314L;
+	private static int gid = 0;
 
 	public Lager(String name, Address address) {
 		setAddress(address);
 		setName(name);
 	}
 	
+	private int id = gid++;
 	private Address address;
 	private String name;
 	
@@ -33,5 +35,15 @@ public class Lager implements Serializable{
 	
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int getID() {
+		return id;
+	}
+
+	@Override
+	public void setID(int id) {
+		this.id = id;
 	}
 }

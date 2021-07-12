@@ -1,6 +1,6 @@
 package de.swt.scenes.controller;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Lager;
 import de.swt.produktverwaltung.obj.Lagerplatz;
 import de.swt.scenedirector.RequiredAction;
@@ -57,7 +57,7 @@ public class NewLagerplatzController implements VarChecker {
     	}
     	
     	Lagerplatz lp = new Lagerplatz(l, tfAbteil.getText(), Integer.parseInt(tfPosition.getText()));
-    	Produktverwaltung.getInstance().addLagerplatz(lp);
+    	ProduktverwaltungDataInterface.getProduktverwaltung().addLagerplatz(lp);
     	l = null;
     	SceneDirector.getInstance().sceneLager(lp);
     }

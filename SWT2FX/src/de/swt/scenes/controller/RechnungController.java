@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
-import de.swt.produktverwaltung.Produktverwaltung;
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Produktanzahl;
 import de.swt.produktverwaltung.obj.Rechnung;
 import de.swt.scenedirector.RequiredAction;
@@ -54,7 +54,7 @@ public class RechnungController {
 		tcEinzelpreis.setCellValueFactory(new PropertyValueFactory<>("einzelpreis"));
 		tcGruppenpreis.setCellValueFactory(new PropertyValueFactory<>("gesamtsumme"));
 
-		tvRechnungen.getItems().addAll(Produktverwaltung.getInstance().getRechnungen());
+		tvRechnungen.getItems().addAll(ProduktverwaltungDataInterface.getProduktverwaltung().getRechnungen());
 		_manualSelectRechnung();
 	}
 
