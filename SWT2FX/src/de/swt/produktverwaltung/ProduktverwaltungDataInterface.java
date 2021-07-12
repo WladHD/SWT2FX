@@ -34,6 +34,8 @@ public interface ProduktverwaltungDataInterface {
 	
 	List<Lagerplatz> getLagerplaetze(Lager l);
 	
+	void setProduktanzahlForLagerplatz(Produktanzahl pa, Lagerplatz lp);
+	
 	void removeLagerplatz(Lagerplatz currentLagerplatz);
 	
 	void removeProduktFromLagerplatz(Lagerplatz lp);

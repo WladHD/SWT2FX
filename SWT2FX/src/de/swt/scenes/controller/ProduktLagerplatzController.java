@@ -2,6 +2,7 @@ package de.swt.scenes.controller;
 
 import java.util.AbstractMap.SimpleEntry;
 
+import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Lagerplatz;
 import de.swt.produktverwaltung.obj.Produkt;
 import de.swt.produktverwaltung.obj.Produktanzahl;
@@ -73,7 +74,9 @@ public class ProduktLagerplatzController implements VarChecker {
     		return;
     	}
     	
-    	pair.getValue().setProduktanzahl(new Produktanzahl(pair.getKey(), anzahl));
+    	ProduktverwaltungDataInterface.getProduktverwaltung().setProduktanzahlForLagerplatz(new Produktanzahl(pair.getKey(), anzahl), pair.getValue());
+    	
+    	
     	SceneDirector.getInstance().sceneLager(pair.getValue());
     }
 

@@ -22,9 +22,8 @@ public class MySQL {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/produktverwaltung", "root", "root");
-			System.out.println("Connection successfully established");
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

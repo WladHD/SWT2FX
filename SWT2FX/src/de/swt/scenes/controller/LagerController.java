@@ -1,6 +1,7 @@
 package de.swt.scenes.controller;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 
 import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import de.swt.produktverwaltung.obj.Lager;
@@ -32,12 +33,29 @@ public class LagerController {
 		if (SceneDirector._requiredAction != RequiredAction.LAGER_SHOW_LAGERPLATZ)
 			return;
 
-		lvLager.getSelectionModel().select(((Lagerplatz) SceneDirector._requiredActionData).getLager());
+		
+		lvLager.getSelectionModel().select(findLagerById(lvLager.getItems(), ((Lagerplatz) SceneDirector._requiredActionData).getLager()));
 		onMousePressedLager(null);
-		lvLagerplatz.getSelectionModel().select((Lagerplatz) SceneDirector._requiredActionData);
+		lvLagerplatz.getSelectionModel().select(findLagerplatzById(lvLagerplatz.getItems(), (Lagerplatz) SceneDirector._requiredActionData));
 		onMousePressedLagerplatz(null);
 		onMousePressedProdukt(null);
 		SceneDirector._resetRequiredAction();
+	}
+	
+	private Lager findLagerById(List<Lager> l, Lager id) {
+		for(Lager la : l)
+			if(la.getID() == id.getID())
+				return la;
+		
+		return null;
+	}
+	
+	private Lagerplatz findLagerplatzById(List<Lagerplatz> l, Lagerplatz id) {
+		for(Lagerplatz la : l)
+			if(la.getID() == id.getID())
+				return la;
+		
+		return null;
 	}
 
 	@FXML
@@ -93,7 +111,7 @@ public class LagerController {
 		}
 		case 2: {
 			ProduktverwaltungDataInterface.getProduktverwaltung().removeLagerplatz(currentLagerplatz);
-			SceneDirector.getInstance().sceneLager(currentLagerplatz);
+			SceneDirector.getInstance().sceneLager();
 			break;
 		}
 		case 3: {
@@ -139,14 +157,22 @@ public class LagerController {
 	void onMousePressedLager(MouseEvent event) {
 		currentWindow = 1;
 		currentLager = lvLager.getSelectionModel().getSelectedItem();
+		currentLagerplatz = null;
 		loadLagerplaetze(currentLager);
 		showButtons("Lager hinzufügen", currentLager == null ? null : "Lager anzeigen", currentLager == null ? null : "Lager entfernen");
 	}
 
 	@FXML
 	void onMousePressedLagerplatz(MouseEvent event) {
+		if(currentLager == null || lvLagerplatz.getSelectionModel().getSelectedItem() != null && lvLagerplatz.getSelectionModel().getSelectedItem().getLager().getID() != currentLager.getID()) {
+			currentLagerplatz = null;
+			loadLager();
+			return;
+		}
+		
 		currentWindow = 2;
 		currentLagerplatz = lvLagerplatz.getSelectionModel().getSelectedItem();
+		
 		loadProdukt(currentLagerplatz);
 		showButtons(currentLager == null ? null : "Lagerplatz hinzufügen",
 				currentLagerplatz == null ? null : "Lagerplatz entfernen", null);
@@ -165,6 +191,9 @@ public class LagerController {
 	}
 
 	private void loadLager() {
+		lvLagerplatz.getItems().clear();
+		lvProdukt.getItems().clear();
+		lvLager.getItems().clear();
 		lvLager.setItems(FXCollections.observableArrayList(ProduktverwaltungDataInterface.getProduktverwaltung().getLager()));
 	}
 

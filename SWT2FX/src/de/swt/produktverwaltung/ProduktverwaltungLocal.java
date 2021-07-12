@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import de.swt.produktverwaltung.obj.Lager;
 import de.swt.produktverwaltung.obj.Lagerplatz;
 import de.swt.produktverwaltung.obj.Produkt;
+import de.swt.produktverwaltung.obj.Produktanzahl;
 import de.swt.produktverwaltung.obj.Rechnung;
 
 public class ProduktverwaltungLocal implements Serializable, ProduktverwaltungDataInterface{
@@ -122,5 +123,11 @@ public class ProduktverwaltungLocal implements Serializable, ProduktverwaltungDa
 	public boolean loadAll(String... params) {
 		return deserialize(params[0]);
 	}
+
+	@Override
+	public void setProduktanzahlForLagerplatz(Produktanzahl pa, Lagerplatz lp) {
+		lp.setProduktanzahl(pa);
+	}
+
 	
 }

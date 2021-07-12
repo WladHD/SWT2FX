@@ -75,7 +75,7 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	}
 
 	public void removeLager(Lager l) {
-		String rem = "DELTE FROM lager WHERE lagerId = ?";
+		String rem = "DELETE FROM lager WHERE lagerId = ?";
 
 		try {
 			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(rem);
@@ -186,8 +186,10 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	}
 
 	private Produktanzahl constructProduktanzahl(ResultSet rs) throws NumberFormatException, SQLException {
-		if (rs.getString("produktName") == null)
+		if (rs.getString("produktName") == null) 
 			return null;
+		
+			
 		return new Produktanzahl(constructProdukt(rs), rs.getInt("anzahl"))
 				.setIDWithInstance(rs.getInt("produktanzahlId"));
 	}
@@ -223,7 +225,7 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	public ArrayList<Lagerplatz> getLagerplaetze() {
 		ArrayList<Lagerplatz> lagerplaetze = new ArrayList<Lagerplatz>();
 
-		String lagp = "SELECT * FROM lagerplatz JOIN lager USING(lagerID) JOIN address USING(addressId) LEFT JOIN produktanzahl USING(produktanzahlId) JOIN produkt USING(produktId)";
+		String lagp = "SELECT * FROM lagerplatz JOIN lager USING(lagerID) JOIN address USING(addressId) LEFT JOIN produktanzahl USING(produktanzahlId) LEFT JOIN produkt USING(produktId)";
 
 		try {
 			Statement s = MySQL.getInstance().getConnection().createStatement();
@@ -268,6 +270,25 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		}
 		
 		lp.setProduktanzahl(null);
+	}
+	
+	@Override
+	public void setProduktanzahlForLagerplatz(Produktanzahl pa, Lagerplatz lp) {
+		if(lp.hasProduktanzahl())
+			removeProduktFromLagerplatz(lp);
+		
+		addProduktanzahl(pa, null);
+		
+		String update = "UPDATE lagerplatz SET produktanzahlId = ? WHERE lagerplatzId = ?";
+		
+		try {
+			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(update);
+			s.setInt(1, pa.getID());
+			s.setInt(2, lp.getID());
+			s.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addRechnung(Rechnung r) {
