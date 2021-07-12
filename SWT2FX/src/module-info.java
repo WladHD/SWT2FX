@@ -4,6 +4,7 @@ module SWT2FX {
 	requires javafx.graphics;
 	requires java.base;
 	requires java.sql;
+	requires junit;
 	
 	opens de.swt to javafx.graphics, javafx.fxml, javafx.base;
 	opens de.swt.produktverwaltung.obj to javafx.graphics, javafx.fxml, javafx.base;
