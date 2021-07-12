@@ -40,9 +40,11 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 
 	public void addLager(Lager l) {
 		String ad = "INSERT INTO address (country, state, postCode, city, street, houseNr) values (?, ?, ?, ?, ?, ?)";
+		
+		MySQL m = MySQL.createNewInstance();
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(ad,
+			PreparedStatement s = m.getConnection().prepareStatement(ad,
 					Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, l.getAddress().getCountry());
 			s.setString(2, l.getAddress().getState());
@@ -61,7 +63,7 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		String lag = "INSERT INTO lager (lagerName, addressId) values (?, ?)";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(lag,
+			PreparedStatement s = m.getConnection().prepareStatement(lag,
 					Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, l.getName());
 			s.setInt(2, l.getAddress().getID());
@@ -72,25 +74,33 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	public void removeLager(Lager l) {
+		MySQL m = MySQL.createNewInstance();
+		
 		String rem = "DELETE FROM lager WHERE lagerId = ?";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(rem);
+			PreparedStatement s = m.getConnection().prepareStatement(rem);
 			s.setInt(1, l.getID());
 			s.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	public ArrayList<Lager> getLager() {
+		MySQL m = MySQL.createNewInstance();
+		
 		ArrayList<Lager> lager = new ArrayList<Lager>();
 		String sel = "SELECT * FROM lager JOIN address USING(addressId)";
 		try {
-			Statement s = MySQL.getInstance().getConnection().createStatement();
+			Statement s = m.getConnection().createStatement();
 			ResultSet rs = s.executeQuery(sel);
 
 			while (rs.next()) {
@@ -100,6 +110,8 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 
 		return lager;
 	}
@@ -112,10 +124,11 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	}
 
 	public void addProdukt(Produkt p) {
+		MySQL m = MySQL.createNewInstance();
 		String pr = "INSERT INTO produkt (produktName, ean13, preis, typ, zusatzinfo) values (?, ?, ?, ?, ?)";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(pr,
+			PreparedStatement s = m.getConnection().prepareStatement(pr,
 					Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, p.getName());
 			s.setString(2, p.getEAN13());
@@ -129,13 +142,16 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	public ArrayList<Produkt> getProdukte() {
+		MySQL m = MySQL.createNewInstance();
 		ArrayList<Produkt> produkte = new ArrayList<Produkt>();
 		String sel = "SELECT * FROM produkt";
 		try {
-			Statement s = MySQL.getInstance().getConnection().createStatement();
+			Statement s = m.getConnection().createStatement();
 			ResultSet rs = s.executeQuery(sel);
 
 			while (rs.next())
@@ -143,6 +159,8 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 
 		return produkte;
 	}
@@ -165,11 +183,13 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	}
 
 	public void addProduktanzahl(Produktanzahl p, Rechnung r) {
+		MySQL m = MySQL.createNewInstance();
+		
 		String pa = r == null ? "INSERT INTO produktanzahl (produktId, anzahl) values (?, ?)"
 				: "INSERT INTO produktanzahl (produktId, anzahl, rechnungId) values (?, ?, ?)";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(pa,
+			PreparedStatement s = m.getConnection().prepareStatement(pa,
 					Statement.RETURN_GENERATED_KEYS);
 			s.setInt(1, p.getProdukt().getID());
 			s.setInt(2, p.getAnzahl());
@@ -183,6 +203,8 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	private Produktanzahl constructProduktanzahl(ResultSet rs) throws NumberFormatException, SQLException {
@@ -195,6 +217,8 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	}
 
 	public void addLagerplatz(Lagerplatz lp) {
+		MySQL m = MySQL.createNewInstance();
+		
 		if (lp.hasProduktanzahl())
 			addProduktanzahl(lp.getProduktanzahl(), null);
 
@@ -203,7 +227,7 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 				: "INSERT INTO lagerplatz (abteil, position, lagerId) values (?, ?, ?)";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(lag,
+			PreparedStatement s = m.getConnection().prepareStatement(lag,
 					Statement.RETURN_GENERATED_KEYS);
 
 			s.setString(1, lp.getAbteil());
@@ -220,15 +244,19 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	public ArrayList<Lagerplatz> getLagerplaetze() {
+		MySQL m = MySQL.createNewInstance();
+		
 		ArrayList<Lagerplatz> lagerplaetze = new ArrayList<Lagerplatz>();
 
 		String lagp = "SELECT * FROM lagerplatz JOIN lager USING(lagerID) JOIN address USING(addressId) LEFT JOIN produktanzahl USING(produktanzahlId) LEFT JOIN produkt USING(produktId)";
 
 		try {
-			Statement s = MySQL.getInstance().getConnection().createStatement();
+			Statement s = m.getConnection().createStatement();
 			ResultSet rs = s.executeQuery(lagp);
 
 			while (rs.next())
@@ -238,6 +266,8 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 
 		return lagerplaetze;
 	}
@@ -247,22 +277,28 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 	}
 
 	public void removeLagerplatz(Lagerplatz currentLagerplatz) {
+		MySQL m = MySQL.createNewInstance();
+		
 		String lagp = "DELETE FROM lagerplatz WHERE lagerplatzId = ?";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(lagp);
+			PreparedStatement s = m.getConnection().prepareStatement(lagp);
 			s.setInt(1, currentLagerplatz.getID());
 			s.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	public void removeProduktFromLagerplatz(Lagerplatz lp) {
+		MySQL m = MySQL.createNewInstance();
+		
 		String prod = "DELETE FROM produktanzahl WHERE produktanzahlId = ?";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(prod);
+			PreparedStatement s = m.getConnection().prepareStatement(prod);
 			s.setInt(1, lp.getProduktanzahl().getID());
 			s.execute();
 		} catch (SQLException e) {
@@ -270,10 +306,14 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		}
 		
 		lp.setProduktanzahl(null);
+		
+		m.close();
 	}
 	
 	@Override
 	public void setProduktanzahlForLagerplatz(Produktanzahl pa, Lagerplatz lp) {
+		MySQL m = MySQL.createNewInstance();
+		
 		if(lp.hasProduktanzahl())
 			removeProduktFromLagerplatz(lp);
 		
@@ -282,20 +322,24 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		String update = "UPDATE lagerplatz SET produktanzahlId = ? WHERE lagerplatzId = ?";
 		
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(update);
+			PreparedStatement s = m.getConnection().prepareStatement(update);
 			s.setInt(1, pa.getID());
 			s.setInt(2, lp.getID());
 			s.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 	}
 
 	public void addRechnung(Rechnung r) {
+		MySQL m = MySQL.createNewInstance();
+		
 		String rech = "INSERT INTO rechnung (datum, zeit) values (?, ?)";
 
 		try {
-			PreparedStatement s = MySQL.getInstance().getConnection().prepareStatement(rech,
+			PreparedStatement s = m.getConnection().prepareStatement(rech,
 					Statement.RETURN_GENERATED_KEYS);
 
 			s.setString(1, r.getDatum());
@@ -310,15 +354,19 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 
 		for (Produktanzahl pa : r.getProdukte())
 			addProduktanzahl(pa, r);
+		
+		m.close();
 	}
 
 	public ArrayList<Rechnung> getRechnungen() {
+		MySQL m = MySQL.createNewInstance();
+		
 		ArrayList<Rechnung> rechnungen = new ArrayList<Rechnung>();
 
 		String rech = "SELECT * FROM rechnung LEFT JOIN produktanzahl USING(rechnungId) JOIN produkt USING(produktId)";
 
 		try {
-			Statement s = MySQL.getInstance().getConnection().createStatement();
+			Statement s = m.getConnection().createStatement();
 			ResultSet rs = s.executeQuery(rech);
 
 			while (rs.next()) {
@@ -338,6 +386,8 @@ public class ProduktverwaltungMySQL implements Serializable, ProduktverwaltungDa
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		m.close();
 
 		return rechnungen;
 	}

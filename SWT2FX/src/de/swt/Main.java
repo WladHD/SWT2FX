@@ -1,6 +1,5 @@
 package de.swt;
 
-import de.swt.mysql.MySQL;
 import de.swt.produktverwaltung.ProduktverwaltungDataInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +8,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+	/**
+	 * DAO/DTO-Muster : ProduktverwaltungDataInterface -> ProduktverwaltungMySQL/ProduktverwaltungLocal
+	 * Observer-Muster : de.swt.scenes.controller.*
+	 * Fabrikmethode-Muster : de.swt.mysql.MySQL
+	 * Singleton-Muster : de.swt.scenes.SceneDirector, ProduktverwaltungMySQL/ProduktverwaltungLocal
+	 */
 
 	boolean debug = false;
 
@@ -29,7 +35,6 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			MySQL.getInstance().getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
