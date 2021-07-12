@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import de.swt.scenes.SceneDirector;
+import javafx.scene.control.Alert.AlertType;
+
 public class MySQL {
 
 	private Connection connection;
@@ -34,6 +37,8 @@ public class MySQL {
 			connection = DriverManager.getConnection("jdbc:mysql://" + url, username, password);
 		} catch (Exception e) {
 			e.printStackTrace();
+			SceneDirector.getInstance().showAlert(AlertType.ERROR, "MySQL Server nicht gefunden",
+					"Dieser muss unter " + url + " (" + username + ", " + password + ") laufen.");
 		}
 	}
 
